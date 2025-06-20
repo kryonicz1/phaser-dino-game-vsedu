@@ -8,9 +8,11 @@ class Game extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image("dino", "public/assets/dino-idle.png");
     }
 
     create() {
+        this.add.image(200, 200, "dino").setOrigin(0);
     }
 
     update() {
