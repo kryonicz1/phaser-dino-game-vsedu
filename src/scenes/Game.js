@@ -16,6 +16,11 @@ class Game extends Phaser.Scene {
         this.load.spritesheet("dino", "public/assets/dino-run.png", {frameWidth: 88, frameHeight: 94});
         this.load.image("ground", "public/assets/ground.png");
         this.load.image("cloud", "public/assets/cloud.png")
+
+        for(let i = 0; i < 6; i ++) {
+            const cactusNum = i + 1;
+            this.load.image(`obstacle-${cactusNum}`, `public/assets/cactuses_${cactusNum}.png`)
+        }
     }
 
     create() {
@@ -39,10 +44,17 @@ class Game extends Phaser.Scene {
         this.groundCollider.body.setSize(1000, 30);
 
         this.physics.add.collider(this.player, this.groundCollider);
+
+        this.obstacles = this.physics.add.group({
+            allowGravity: false
+        });
     }
 
     update() {
         this.ground.tilePositionX += this.gameSpeed;
+        
+        this.obstacleNum = Math.floor(Math.random() *6) + 1;
+        this.obstacles.create(500, 220, `obstacle-${this.obstacleNum}`).setOrigin(0);
     }
 
 }
