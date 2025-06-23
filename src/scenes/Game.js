@@ -19,9 +19,11 @@ class Game extends Phaser.Scene {
     }
 
     create() {
-        this.player = this.physics.add.sprite(200, 200, "dino").setOrigin(0);
+        this.player = this.physics.add.sprite(200, 200, "dino").setOrigin(0, 1).setGravityY(5000).setCollideWorldBounds(true).setBodySize(44, 92);
 
         this.ground = this.add.image(100, 280, "ground").setOrigin(0);
+
+        this.ground = this.add.tileSprite(0, 300, 1000, 30, "ground").setOrigin(0, 1);
         
         this.clouds = this.add.group();
         
@@ -31,9 +33,16 @@ class Game extends Phaser.Scene {
         this.add.image(450, 90, "cloud")
         ])
 
+        this.gameSpeed = 5;
+
+        this.groundCollider = this.physics.add.staticSprite(0, 300, "ground").setOrigin(0, 1);
+        this.groundCollider.body.setSize(1000, 30);
+
+        this.physics.add.collider(this.player, this.groundCollider);
     }
 
     update() {
+        this.ground.tilePositionX += this.gameSpeed;
     }
 
 }
