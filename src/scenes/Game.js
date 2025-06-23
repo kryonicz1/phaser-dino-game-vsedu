@@ -11,7 +11,7 @@ class Game extends Phaser.Scene {
         this.load.spritesheet("dino", "public/assets/dino-run.png", {frameWidth: 88, frameHeight: 94});
 
         this.load.image("ground", "public/assets/ground.png");
-        this.load.image("cloud", "public/assets/cloud.png")
+        this.load.image("cloud", "public/assets/cloud.png");
     }
 
     create() {
