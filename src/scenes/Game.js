@@ -26,8 +26,6 @@ class Game extends Phaser.Scene {
     create() {
         this.player = this.physics.add.sprite(200, 200, "dino").setOrigin(0, 1).setGravityY(5000).setCollideWorldBounds(true).setBodySize(44, 92);
 
-        this.ground = this.add.image(100, 280, "ground").setOrigin(0);
-
         this.ground = this.add.tileSprite(0, 300, 1000, 30, "ground").setOrigin(0, 1);
         
         this.clouds = this.add.group();
