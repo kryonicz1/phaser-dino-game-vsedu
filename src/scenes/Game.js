@@ -26,8 +26,6 @@ class Game extends Phaser.Scene {
     create() {
         this.player = this.physics.add.sprite(200, 200, "dino").setOrigin(0, 1).setGravityY(5000).setCollideWorldBounds(true).setBodySize(44, 92);
 
-        this.ground = this.add.image(100, 280, "ground").setOrigin(0);
-
         this.ground = this.add.tileSprite(0, 300, 1000, 30, "ground").setOrigin(0, 1);
         
         this.clouds = this.add.group();
@@ -48,13 +46,27 @@ class Game extends Phaser.Scene {
         this.obstacles = this.physics.add.group({
             allowGravity: false
         });
+        this.timer = 0;
     }
 
-    update() {
+    update(time, delta) {
         this.ground.tilePositionX += this.gameSpeed;
-        
+        this.timer += delta;
+        console.log(this.timer);
+        if (this.timer > 1000) {
         this.obstacleNum = Math.floor(Math.random() *6) + 1;
-        this.obstacles.create(500, 220, `obstacle-${this.obstacleNum}`).setOrigin(0);
+        this.obstacles.create(1024, 220, `obstacle-${this.obstacleNum}`).setOrigin(0);
+        this.timer -= 1000;
+        }
+
+        Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
+
+    this.obstacles.getChildren().forEach(obstacle => {
+        if (obstacle.getBounds().right < 0) {
+            this.obstacles.remove(obstacle);
+            obstacle.destroy();
+        }
+    })
     }
 
 }
