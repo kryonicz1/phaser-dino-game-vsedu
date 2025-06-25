@@ -47,6 +47,8 @@ class Game extends Phaser.Scene {
             allowGravity: false
         });
         this.timer = 0;
+
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
     update(time, delta) {
@@ -67,6 +69,11 @@ class Game extends Phaser.Scene {
             obstacle.destroy();
         }
     })
+    const { space, up } = this.cursors;
+
+    if (Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up) && this.player.body.onFloor()) {
+        this.player.setVelocityY(-1600);
+    }
     }
 
 }
