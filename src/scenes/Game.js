@@ -90,6 +90,13 @@ class Game extends Phaser.Scene {
             color: "#535353",
             resolution: 5
         }).setOrigin(0).setAlpha(0); //alpha 0 to hide message intially
+
+        this.anims.create({
+        key: "dino-run",
+        frames: this.anims.generateFrameNames("dino", {start: 2, end: 3}),
+        frameRate: 10,
+        repeat: -1
+    });
     }
 
     update(time, delta) {
@@ -138,13 +145,6 @@ class Game extends Phaser.Scene {
         this.scoreText.setText(formattedScore);
         this.frameCounter -= 100;
     }
-
-    this.anims.create({
-        key: "dino-run",
-        frames: this.anims.generateFrameNames("dino", {start: 2, end: 3}),
-        frameRate: 10,
-        repeat: -1
-    });
 
     // if jumping, do not display dino-run animation and display texture
     if (this.player.body.deltaAbsY() > 4) {
