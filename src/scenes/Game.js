@@ -16,6 +16,8 @@ class Game extends Phaser.Scene {
         this.load.spritesheet("dino", "public/assets/dino-run.png", {frameWidth: 88, frameHeight: 94});
         this.load.image("ground", "public/assets/ground.png");
         this.load.image("cloud", "public/assets/cloud.png");
+        this.load.image("game-over", "public/assets/game-over.png");
+        this.load.image("restart", "public/assets/restart.png");
 
         for(let i = 0; i < 6; i ++) {
             const cactusNum = i + 1;
@@ -52,6 +54,14 @@ class Game extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.physics.add.collider(this.obstacles, this.player, this.gameOver, null, this);
+    
+        this.gameOverText = this.add.image(0, 0, "game-over");
+        this.restartText = this.add.image(0, 80, "restart").setInteractive();
+
+        this.gameOverContainer = this.add
+                .container(1024 / 2, (300 / 2) -50)
+                .add([this.gameOverText, this.restartText])
+                .setAlpha(0);
     }
 
     update(time, delta) {
@@ -78,12 +88,22 @@ class Game extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up) && this.player.body.onFloor()) {
         this.player.setVelocityY(-1600);
     }
+
+    this.restartText.on("pointerdown", () => {
+        this.physics.resume();
+        this.player.setVelocityY(0);
+        this.obstacles.clear(true, true);
+        this.gameOverContainer.setAlpha(0);
+        this.isGameRunning = true;
+    })
+
     }
 
     gameOver() {
         this.physics.pause();
         this.timer = 0;
         this.isGameRunning = false;
+        this.gameOverContainer.setAlpha(1);
     }
 
 }
