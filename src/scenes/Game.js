@@ -24,7 +24,8 @@ class Game extends Phaser.Scene {
     }
 
     create() {
-        this.player = this.physics.add.sprite(200, 200, "dino").setOrigin(0, 1).setGravityY(5000).setCollideWorldBounds(true).setBodySize(44, 92);
+        this.isGameRunning = true;
+        this.player = this.physics.add.sprite(200, 200, "dino").setDepth(1).setOrigin(0, 1).setGravityY(5000).setCollideWorldBounds(true).setBodySize(44, 92);
 
         this.ground = this.add.tileSprite(0, 300, 1000, 30, "ground").setOrigin(0, 1);
         
@@ -49,9 +50,12 @@ class Game extends Phaser.Scene {
         this.timer = 0;
 
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.physics.add.collider(this.obstacles, this.player, this.gameOver, null, this);
     }
 
     update(time, delta) {
+        if(!this.isGameRunning) {return;}
         this.ground.tilePositionX += this.gameSpeed;
         this.timer += delta;
         console.log(this.timer);
@@ -74,6 +78,12 @@ class Game extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up) && this.player.body.onFloor()) {
         this.player.setVelocityY(-1600);
     }
+    }
+
+    gameOver() {
+        this.physics.pause();
+        this.timer = 0;
+        this.isGameRunning = false;
     }
 
 }
