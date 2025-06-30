@@ -15,7 +15,7 @@ class Game extends Phaser.Scene {
     preload() {
         this.load.spritesheet("dino", "public/assets/dino-run.png", {frameWidth: 88, frameHeight: 94});
         this.load.image("ground", "public/assets/ground.png");
-        this.load.image("cloud", "public/assets/cloud.png")
+        this.load.image("cloud", "public/assets/cloud.png");
 
         for(let i = 0; i < 6; i ++) {
             const cactusNum = i + 1;
