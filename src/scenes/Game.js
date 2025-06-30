@@ -18,6 +18,7 @@ class Game extends Phaser.Scene {
         this.load.image("cloud", "public/assets/cloud.png");
         this.load.image("game-over", "public/assets/game-over.png");
         this.load.image("restart", "public/assets/restart.png");
+        this.load.image("dino-hurt", "public/assets/dino-hurt.png")
 
         for(let i = 0; i < 6; i ++) {
             const cactusNum = i + 1;
@@ -127,6 +128,7 @@ class Game extends Phaser.Scene {
         const formattedScore = String(Math.floor(this.score)).padStart(5, "0");
         this.scoreText.setText(formattedScore);
         this.isGameRunning = true;
+        this.anims.resumeAll();
     })
 
     this.frameCounter++;
@@ -137,6 +139,24 @@ class Game extends Phaser.Scene {
         this.frameCounter -= 100;
     }
 
+    this.anims.create({
+        key: "dino-run",
+        frames: this.anims.generateFrameNames("dino", {start: 2, end: 3}),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    // if jumping, do not display dino-run animation and display texture
+    if (this.player.body.deltaAbsY() > 4) {
+        //temporarily stop the running animation
+        this.player.anims.stop();
+        //set texture to the first frame (index 0) in the spritesheet
+        this.player.setTexture("dino", 0);
+    }
+    else {
+        //otherwise play the dino-run animation
+        this.player.play("dino-run", true);
+    }
     }
 
     gameOver() {
@@ -157,6 +177,10 @@ class Game extends Phaser.Scene {
         this.timer = 0;
         this.isGameRunning = false;
         this.gameOverContainer.setAlpha(1);
+
+        this.anims.pauseAll();
+
+        this.player.setTexture("dino-hurt");
     }
 
 }
