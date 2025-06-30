@@ -19,6 +19,8 @@ class Game extends Phaser.Scene {
         this.load.image("game-over", "public/assets/game-over.png");
         this.load.image("restart", "public/assets/restart.png");
         this.load.image("dino-hurt", "public/assets/dino-hurt.png");
+        this.load.audio("jump", "public/assets/jump.m4a");
+        this.load.audio("hit", "public/assets/hit.m4a");
 
         for(let i = 0; i < 6; i ++) {
             const cactusNum = i + 1;
@@ -122,6 +124,7 @@ class Game extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up) && this.player.body.onFloor()) {
         this.player.setVelocityY(-1600);
+        this.sound.play("jump");
     }
 
     this.restartText.on("pointerdown", () => {
@@ -145,6 +148,8 @@ class Game extends Phaser.Scene {
         this.scoreText.setText(formattedScore);
         this.frameCounter -= 100;
     }
+
+
 
     // if jumping, do not display dino-run animation and display texture
     if (this.player.body.deltaAbsY() > 4) {
@@ -181,6 +186,8 @@ class Game extends Phaser.Scene {
         this.anims.pauseAll();
 
         this.player.setTexture("dino-hurt");
+
+        this.sound.play("hit");
     }
 
 }
