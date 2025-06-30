@@ -18,7 +18,7 @@ class Game extends Phaser.Scene {
         this.load.image("cloud", "public/assets/cloud.png");
         this.load.image("game-over", "public/assets/game-over.png");
         this.load.image("restart", "public/assets/restart.png");
-        this.load.image("dino-hurt", "public/assets/dino-hurt.png")
+        this.load.image("dino-hurt", "public/assets/dino-hurt.png");
 
         for(let i = 0; i < 6; i ++) {
             const cactusNum = i + 1;
